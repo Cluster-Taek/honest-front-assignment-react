@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import CustomButton from './components/CustomButton';
 import CustomInput from './components/CustomInput';
 import CustomTitleText from './components/CustomTitleText';
 import CustomContentText from './components/CustomContentText';
-import { Link } from 'react-router-dom';
+
 
 const IdentityAuthentication = () => {
     const [phoneNumber, setPhoneNumber] = useState(["010", "", ""]);
@@ -32,12 +33,12 @@ const IdentityAuthentication = () => {
         </div>
         <CustomContentText value={'주민등록번호'} />
         <div className='row'>
-            <CustomInput type={"text"} value={personalNumber[0]} maxLength={6} onChange={(e) => changePersonalNumber(e.target.value, 0)} />
+            <CustomInput type={"text"} value={personalNumber[0]} maxLength={6} placeholder={"앞 6자리"} onChange={(e) => changePersonalNumber(e.target.value, 0)} />
             <div className='minus' />
-            <CustomInput type={"password"} value={personalNumber[1]} maxLength={7} onChange={(e) => changePersonalNumber(e.target.value, 1)} />
+            <CustomInput type={"password"} value={personalNumber[1]} maxLength={7} placeholder={"뒤 7자리"}  onChange={(e) => changePersonalNumber(e.target.value, 1)} />
         </div>
         <CustomContentText value={'이름'} />
-        <CustomInput type={"text"} value={name} maxLength={10} onChange={(e) => setName(e.target.value)} />
+        <CustomInput type={"text"} value={name} maxLength={10} placeholder={"이름을 입력해 주세요"} onChange={(e) => setName(e.target.value)} />
         <Link style={{marginTop: "120px"}} to={"/phone-certification"} onClick={() => alert("HI")} disabled={!phoneNumber[0] || !phoneNumber[1] || !phoneNumber[2] || !personalNumber[0] || !personalNumber[1] || !name}>
             <CustomButton value={"다음"} disabled={!phoneNumber[0] || !phoneNumber[1] || !phoneNumber[2] || !personalNumber[0] || !personalNumber[1] || !name} />
         </Link>
