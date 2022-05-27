@@ -38,8 +38,8 @@ const IdentityAuthentication = () => {
         </div>
         <CustomContentText value={'이름'} />
         <CustomInput type={"text"} value={name} maxLength={10} onChange={(e) => setName(e.target.value)} />
-        <Link style={{marginTop: "120px"}} to={"/phone-certification"} onClick={() => alert("HI")}>
-            <CustomButton value={"다음"} disabled={false} />
+        <Link style={{marginTop: "120px"}} to={"/phone-certification"} onClick={() => alert("HI")} disabled={!phoneNumber[0] || !phoneNumber[1] || !phoneNumber[2] || !personalNumber[0] || !personalNumber[1] || !name}>
+            <CustomButton value={"다음"} disabled={!phoneNumber[0] || !phoneNumber[1] || !phoneNumber[2] || !personalNumber[0] || !personalNumber[1] || !name} />
         </Link>
     </div>
 
