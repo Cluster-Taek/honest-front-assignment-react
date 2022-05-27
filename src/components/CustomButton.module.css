@@ -1,0 +1,23 @@
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 24px;
+  font-style: normal;
+  font-family: 'HF Fintech Gothic OTF';
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  text-align: center;
+  color: #ffffff;
+  width: 100%;
+  margin-top: 120px;
+}
+
+.enabled {
+    background: #0443a1;
+    cursor: pointer;
+}
+
+.disabled {
+    background: #DDDFE2;
+}

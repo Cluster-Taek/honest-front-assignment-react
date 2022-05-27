@@ -1,0 +1,13 @@
+.input {
+  flex: 0.5;
+  background: #ffffff;
+  border: 1px solid #dddfe2;
+  border-radius: 10px;
+  padding: 16px 17px 20px 20px;
+  font-family: 'HF Fintech Gothic OTF';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  min-width: 0;
+}
