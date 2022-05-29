@@ -1,24 +1,52 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CustomButton from './components/CustomButton';
 import CustomInput from './components/CustomInput';
 import CustomTitleText from './components/CustomTitleText';
 import CustomContentText from './components/CustomContentText';
-
+import { postRequest } from './api/api';
 
 const IdentityAuthentication = () => {
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState(["010", "", ""]);
-    const [personalNumber, setPersonalNumber] = useState(["", ""]);
+    const [civilcode, setCivilcode] = useState(["", ""]);
     const [name, setName] = useState("");
 
-    function changePhoneNumber(text, numberIndex) {
+    const changePhoneNumber = (text, numberIndex) => {
         const regexp = /[^0-9]/g;
         setPhoneNumber([...phoneNumber].map((item, index) => index === numberIndex ? text.replace(regexp, "") : item));
     }
 
-    function changePersonalNumber(text, numberIndex) {
+    const changeCivilcode = (text, numberIndex) => {
         const regexp = /[^0-9]/g;
-        setPersonalNumber([...personalNumber].map((item, index) => index === numberIndex ? text.replace(regexp, "") : item));
+        setCivilcode([...civilcode].map((item, index) => index === numberIndex ? text.replace(regexp, "") : item));
+    }
+
+    const clickNextBtn = async () => {
+        try {
+            setIsLoading(true);
+
+            const params = {
+                'name': name,
+                'civilcodeFirst': civilcode[0],
+                'civilcodeLast': civilcode[1],
+                'mobile': phoneNumber.join('')
+            }
+
+            const result = await postRequest(params);
+
+            if (result.status === 200) {
+                alert('인증번호가 전송되었습니다.');
+                navigate(`/phone-certification/${result.body.response.token}`);
+            } else {
+                alert(result.body.error);
+            }
+        } catch (error) {
+            alert('예기치 않은 오류가 발생하였습니다.\n잠시 후 다시 시도해주세요.');
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return <div className='container'>
@@ -33,15 +61,13 @@ const IdentityAuthentication = () => {
         </div>
         <CustomContentText value={'주민등록번호'} />
         <div className='row'>
-            <CustomInput type={"text"} value={personalNumber[0]} maxLength={6} placeholder={"앞 6자리"} onChange={(e) => changePersonalNumber(e.target.value, 0)} />
+            <CustomInput type={"text"} value={civilcode[0]} maxLength={6} placeholder={"앞 6자리"} onChange={(e) => changeCivilcode(e.target.value, 0)} />
             <div className='minus' />
-            <CustomInput type={"password"} value={personalNumber[1]} maxLength={7} placeholder={"뒤 7자리"}  onChange={(e) => changePersonalNumber(e.target.value, 1)} />
+            <CustomInput type={"password"} value={civilcode[1]} maxLength={7} placeholder={"뒤 7자리"} onChange={(e) => changeCivilcode(e.target.value, 1)} />
         </div>
         <CustomContentText value={'이름'} />
         <CustomInput type={"text"} value={name} maxLength={10} placeholder={"이름을 입력해 주세요"} onChange={(e) => setName(e.target.value)} />
-        <Link style={{marginTop: "120px"}} to={"/phone-certification"} onClick={() => alert("HI")} disabled={!phoneNumber[0] || !phoneNumber[1] || !phoneNumber[2] || !personalNumber[0] || !personalNumber[1] || !name}>
-            <CustomButton value={"다음"} disabled={!phoneNumber[0] || !phoneNumber[1] || !phoneNumber[2] || !personalNumber[0] || !personalNumber[1] || !name} />
-        </Link>
+        <CustomButton value={isLoading ? "잠시만 기다려주세요" : "다음"} disabled={!phoneNumber[0] || phoneNumber[1].length !== 4 || phoneNumber[2].length !== 4 || civilcode[0].length !== 6 || civilcode[1].length !== 7 || !name} onClick={() => clickNextBtn()} />
     </div>
 
 }

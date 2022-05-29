@@ -14,7 +14,7 @@ function App() {
         path="/identity-authentication"
         element={<IdentityAuthentication />}
       />
-      <Route path="/phone-certification" element={<PhoneCertification />} />
+      <Route path="/phone-certification/:token" element={<PhoneCertification />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
